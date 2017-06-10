@@ -4,18 +4,17 @@ parameters:
     dms_meetup_api.oauth_client.class: DMS\Service\Meetup\MeetupOAuthClient
 
 services:
-    dms_meetup_api.client_factory:
-        class: %dms_meetup_api.client_factory.class%
-        arguments:
-            session: @session
-            config: %dms_meetup_api.client.config%
+  dms_meetup_api.client_factory:
+    class: "%dms_meetup_api.client_factory.class%"
+    arguments:
+      - "@session"
+      - "%dms_meetup_api.client.config%"
 
-    dms_meetup_api.key_client:
-        class:            "%dms_meetup_api.key_client.class%"
-        factory_service:  dms_meetup_api.client_factory
-        factory_method:   getKeyAuthClient
+  dms_meetup_api.key_client:
+    class:    "%dms_meetup_api.key_client.class%"
+    factory:  ["@dms_meetup_api.client_factory", getKeyAuthClient]
 
-    dms_meetup_api.oauth_client:
-        class:            "%dms_meetup_api.oauth_client.class%"
-        factory_service:  dms_meetup_api.client_factory
-        factory_method:   getOauthClient
+  dms_meetup_api.oauth_client:
+    class:    "%dms_meetup_api.oauth_client.class%"
+    factory:  ["@dms_meetup_api.client_factory", getOauthClient]
+
